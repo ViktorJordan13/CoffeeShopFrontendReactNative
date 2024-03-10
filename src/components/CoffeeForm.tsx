@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Input, Button, CheckBox } from '@ui-kitten/components';
-import { StyleSheet, ScrollView } from 'react-native';
+import { Input, Button, CheckBox, Text } from '@ui-kitten/components';
+import { StyleSheet, ScrollView, View } from 'react-native';
 
 const CoffeeForm = ({ onFormSubmit, editingCoffee }) => {
   const [form, setForm] = useState({
@@ -32,41 +32,45 @@ const CoffeeForm = ({ onFormSubmit, editingCoffee }) => {
     });
   };
 
+  const InputLabel = ({ text }) => <Text style={styles.label}>{text}</Text>;
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Input
-        label='Name'
+        label={<InputLabel text="Name" />}
         value={form.name}
         onChangeText={(name) => setForm({ ...form, name })}
         style={styles.input}
       />
       <Input
-        label='Coffee Doses'
+        label={<InputLabel text="Coffee Doses" />}
         value={String(form.coffeeDoses)}
         onChangeText={(coffeeDoses) => setForm({ ...form, coffeeDoses })}
         keyboardType='numeric'
         style={styles.input}
       />
       <Input
-        label='Milk Doses'
+        label={<InputLabel text="Milk Doses" />}
         value={String(form.milkDoses)}
         onChangeText={(milkDoses) => setForm({ ...form, milkDoses })}
         keyboardType='numeric'
         style={styles.input}
       />
       <Input
-        label='Sugar Packs'
+        label={<InputLabel text="Sugar Packs" />}
         value={String(form.sugarPacks)}
         onChangeText={(sugarPacks) => setForm({ ...form, sugarPacks })}
         keyboardType='numeric'
         style={styles.input}
       />
-      <CheckBox
-        checked={form.cream}
-        onChange={(checked) => setForm({ ...form, cream: checked })}
-      >
-        {`Cream`}
-      </CheckBox>
+      <View style={styles.checkboxContainer}>
+        <CheckBox
+          checked={form.cream}
+          onChange={(checked) => setForm({ ...form, cream: checked })}
+        >
+          <InputLabel text="Cream" />
+        </CheckBox>
+      </View>
       <Button onPress={handleSubmit} style={styles.submitButton}>
         {editingCoffee ? 'Update Coffee' : 'Add Coffee'}
       </Button>
@@ -85,5 +89,13 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: 16,
+  },
+  label: {
+    color: '#FFF',
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
   },
 });
