@@ -1,26 +1,25 @@
+import React, { useState } from "react";
 import { Button, CheckBox, Icon, Layout, ListItem } from "@ui-kitten/components";
-import { useState } from "react";
 import { StyleSheet } from "react-native";
 
-const CoffeeItem = ({item}, handleRemoveCoffee, handleToggleCoffeeStatus) => {
-    console.log('Remove', handleRemoveCoffee);
-    console.log('Toggle', handleToggleCoffeeStatus);
+// Adjust props to a single object and destructure it
+const CoffeeItem = ({ item, onRemove, onToggleStatus }) => {
     return (
         <ListItem
             title={`${item.name}`}
-            description={`${item.name}`}
-            accessoryRight={
-                <RenderAccesory
+            description={`Doses: Coffee ${item.coffeeDoses}, Milk ${item.milkDoses}, Sugar ${item.sugarPacks}${item.cream ? ', with Cream' : ''}`}
+            accessoryRight={() => (
+                <RenderAccessory
                     coffee={item}
-                    onToggle={handleToggleCoffeeStatus}
-                    onDelete={handleRemoveCoffee}
+                    onToggle={onToggleStatus}
+                    onDelete={onRemove}
                 />
-            }
+            )}
         />
-    )
-}
+    );
+};
 
-const RenderAccesory = ({ coffee, onToggle, onDelete}) => {
+const RenderAccessory = ({ coffee, onToggle, onDelete }) => {
     const [checked, setChecked] = useState(coffee.selected);
 
     const DeleteIcon = (props) => (
@@ -29,55 +28,32 @@ const RenderAccesory = ({ coffee, onToggle, onDelete}) => {
 
     return (
         <Layout style={styles.container}>
-            <Layout style={styles.layout} level="1">
-                <CheckBox
-                    checked={checked}
-                    onChange={nextChecked => {
-                        setChecked(nextChecked);
-                        onToggle(coffee);
-                    }}
-                />
-            </Layout>
-            <Layout style={styles.layout} level="1">
-            <Button
-                size='tiny'
-                accessoryLeft={DeleteIcon}
-                onPress={() => onDelete(coffee)}
+            <CheckBox
+                checked={checked}
+                onChange={(nextChecked) => {
+                    setChecked(nextChecked);
+                    onToggle(coffee);
+                }}
             />
-            </Layout>
+            <Button
+                style={styles.button}
+                appearance='ghost'
+                status='danger'
+                accessoryLeft={DeleteIcon}
+                onPress={() => onDelete(coffee.id)}
+            />
         </Layout>
     );
-}
+};
 
 export default CoffeeItem;
 
 const styles = StyleSheet.create({
-    input: {
-        flex: 1,
-        margin: 2,
-
-    },
-    rowContainer: {
+    container: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-    },
-    controlContainer: {
-        borderRadius: 4,
-        margin: 2,
-        padding: 6,
-        backgroundColor: '#3366FF'
     },
     button: {
-
+        marginLeft: 8,
     },
-    container: {
-        flex: .5,
-        flexDirection: 'row',
-    },
-    layout: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    }
-})
+});
