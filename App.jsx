@@ -7,7 +7,6 @@ import CoffeeList from './src/components/CoffeeList';
 const HomeScreen = () => (
   <Layout style={{ flex: 1 }}>
     <SafeAreaView>
-      <Button>press me</Button>
      <CoffeeList></CoffeeList>
     </SafeAreaView>
   </Layout>
