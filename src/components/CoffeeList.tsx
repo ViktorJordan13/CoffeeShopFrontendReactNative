@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, Divider, List, Spinner, Text, TopNavigation } from '@ui-kitten/components';
+import { Modal, Button, Divider, List, Spinner, Text, TopNavigation, Layout } from '@ui-kitten/components';
 import { View } from 'react-native';
 import CoffeeItem from './CoffeeItem';
 import CoffeeForm from './CoffeeForm';
 import { createCoffee, deleteCoffee, loadCoffees, updateCoffee } from '../services/coffeeService';
+import { StyleSheet } from "react-native";
 
 const CoffeeList = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -57,7 +58,12 @@ const CoffeeList = () => {
 
   return (
     <>
-      <TopNavigation title="List of available coffee choices:" />
+      <Layout style={styles.container}>
+        <TopNavigation
+          title={() => <Text style={styles.titleText}>List of available coffee choices:</Text>}
+          alignment="center"
+        />
+      </Layout>
       <Divider />
       <View style={{ margin: 10 }}>
         <Button onPress={() => {
@@ -100,3 +106,13 @@ const CoffeeList = () => {
 };
 
 export default CoffeeList;
+
+const styles = StyleSheet.create({
+    container: {
+      paddingTop: 20,
+    },
+    titleText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+  });
